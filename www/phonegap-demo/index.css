@@ -1,0 +1,85 @@
+.resize-container {
+    position: relative;
+    display: inline-block;
+    cursor: move;
+    margin: 0 auto;
+}
+
+.resize-container .overlay {
+    display: block;
+}
+
+.resize-handle-ne,
+.resize-handle-se,
+.resize-handle-nw,
+.resize-handle-sw {
+    position: absolute;
+    display: block;
+    width: 10px;
+    height: 10px;
+    background: rgba(222,60,80,.9);
+    z-index: 999;
+}
+
+.resize-handle-nw {
+    top: -5px;
+    left: -5px;
+    cursor: nw-resize;
+}
+
+.resize-handle-sw {
+    bottom: -5px;
+    left: -5px;
+    cursor: sw-resize;
+}
+
+.resize-handle-ne {
+    top: -5px;
+    right: -5px;
+    cursor: ne-resize;
+}
+
+.resize-handle-se {
+    bottom: -5px;
+    right: -5px;
+    cursor: se-resize;
+}
+#avatar_edit_container {
+    display: none;
+    position: absolute;
+    z-index: 50;
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgb(0,0,0); /* Fallback color */
+    /*background-image: url(../img/common/loading.gif);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;*/
+    color: #000;
+}
+
+.resize-image {
+    position: absolute;  
+    top: 0;  
+    bottom: 0;  
+    left: 0;  
+    right: 0;
+    max-height: 100%;  
+    max-width: 100%; 
+    width: auto;
+    height: auto;
+    margin: auto;
+}
+
+.overlay {
+	z-index: 999;
+    position: relative;
+	width: 50vw;
+    height: 50vw;
+    margin: 0 auto;
+    border: solid 2px rgba(222,60,80,.9);
+	box-sizing: content-box;
+	pointer-events: none;
+}

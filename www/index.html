@@ -1,0 +1,223 @@
+<!--
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: content: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <script src="components/loader.js"></script>
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        // PhoneGap event handler
+        document.addEventListener("deviceready", onDeviceReady, false);
+        function onDeviceReady() {
+            console.log("PhoneGap is ready");
+        }
+    </script>
+</head>
+<body>
+
+    <h1>HelloWorld!</h1>
+    <a class="button--large" href="phonegap-demo.html">Start Demo</a>
+
+</body>
+</html>
+-->
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="components/loader.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/cropper.min.css">
+    <link rel="stylesheet" href="css/cropper_custom.css">
+    <!--<script src="phonegap-demo/avatar-edit.js"></script>-->
+    <script>
+        document.addEventListener ("deviceready", onDeviceReady, false);
+        
+        //these functions runs when Cordova is ready
+        function onDeviceReady () {
+            alert ('Cordova is ready!');
+        }
+
+        function snapPicture () {
+            navigator.camera.getPicture (successCallback, FailCallback, {destinationType: Camera.DestinationType.DATA_URL});
+
+            //Success Callback
+            function successCallback (imageData) {
+                //Display image
+                // var image = document.getElementById ('origin-image');
+                // image.src = "data:image/jpeg;base64, " + imageData;
+                var main_img = document.getElementById ('main_image');
+                main_img.src = "data:image/jpeg;base64, " + imageData;
+                $("body").find("#avatar-modal").modal('show');
+
+                // var avatarEditContainer = document.getElementById('avatar_edit_container');
+                // avatarEditContainer.style.display = 'inherit'; 
+                // $(".overlay").css('top', (window.innerHeight - window.innerWidth) / 2);
+                // resizeableImage($('.overlay'));
+
+                /*
+                $("#avatar_edit_container").css ({
+                    'background-image' : "url('data:image/jpeg;base64," + imageData + "')",
+                    'display': 'inherit'
+                });
+                */
+            }
+
+            //Error CallBack
+            function FailCallback (message) {
+                alert ('Error!!!: ' + message);
+            }
+        }
+        
+        function selectPicture () {
+            navigator.camera.getPicture (successCallback, FailCallback, {destinationType: Camera.DestinationType.DATA_URL, sourceType:Camera.PictureSourceType.PHOTOLIBRARY});
+
+            //Success Callback
+            function successCallback (imageData) {
+                
+                $('#image').attr('src', "data:image/jpeg;base64, " + imageData);
+                //stopCropping();
+                //startCropping();
+                //Display image
+                /*var image = document.getElementById ('picture');
+                image.src = "data:image/jpeg;base64, " + imageData;
+                */
+                // var avatarEditContainer = document.getElementById('avatar_edit_container');
+                // avatarEditContainer.style.display = 'inherit'; 
+                // $(".overlay").css('top', (window.innerHeight - window.innerWidth) / 2);
+                // resizeableImage($('.overlay'));
+            }
+
+            //Error CallBack
+            function FailCallback (message) {
+                alert ('Error!!!: ' + message);
+            }
+        }
+    </script>
+</head> 
+<body>
+    <h1>Camera Sample</h1>
+    <input type="button" onclick="snapPicture()" value="Snap" >
+    <input type="button" onclick="selectPicture()" value="Select" ><br><br>
+    <img id="picture" src="" width="150" height="150">
+    <!--
+    <div id="avatar_edit_container">
+        <img class="resize-image" id="origin-image" src="" alt="image for resizing">
+        <div class="overlay">
+            <span class="resize-handle resize-handle-nw"></span>
+            <span class="resize-handle resize-handle-ne"></span>
+            <span class="resize-handle resize-handle-sw"></span>
+            <span class="resize-handle resize-handle-se"></span>
+        </div>
+    </div>
+    -->
+    <div class="container" id="crop-avatar">
+    <!--div class="avatar-view" title="Change the avatar">
+        <img src="img/picture.jpg" alt="Avatar">
+    </div-->
+
+    <!-- Cropping modal -->
+        <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" id="avatar-modal-label">Crop Image</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="avatar-body">
+                            <div class="img-container bootstrap-modal-cropper">
+                                <!--<canvas id="canvas"></canvas>-->
+                                <img id="main_image" src="">
+                            </div>
+    
+                            <div class="row avatar-btns">
+                                <div class="col-md-3">
+                                    <button type="submit" class="btn btn-primary btn-block avatar-save" id="cropSave">Done</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div> -->
+                </div>
+            </div>
+        </div><!-- /.modal -->
+        <!-- Loading state -->
+        <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
+    </div>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="phonegap-demo/cropper.min.js"></script>
+    <script>
+        var cover_img_blob = null;
+        var cover_img_url = '';
+        $("#avatar-modal").on("shown.bs.modal", function() {
+                stopCropping();
+                // $('#image').attr('src', "img/picture.jpg");
+                startCropping();
+        });
+        
+        $("#cropSave").on('click', function () {
+            var $main_img = $('#main_image');
+            $main_img.cropper('getCroppedCanvas').toBlob(function (blob) {
+                cover_img_blob = blob;
+                cover_img_url = URL.createObjectURL(cover_img_blob);
+                $('#picture').attr('src', cover_img_url); 
+    
+                $("body").find("#avatar-modal").modal('hide');
+            });
+        });
+        
+        function startCropping () {
+             var $main_img = $('#main_image');
+        //     var $canvas = $('#canvas');
+        //     var $image = $('#image');
+             var image = $main_img[0];
+        // 
+            function start() {
+        //         var width = image.width;
+        //         var height = image.height;
+        //         var canvas = $canvas[0];
+        // 
+        //         canvas.width = width;
+        //         canvas.height = height;
+        //         canvas.getContext('2d').drawImage(
+        //             image,
+        //             0, 0, image.naturalWidth, image.naturalHeight,
+        //             0, 0, width, height
+        //         );
+        
+                $main_img.cropper({
+                    viewMode: 1,
+                    dragMode: 'move',
+                    autoCropArea: 0.65,
+                    strict: false,
+                    restore: false,
+                    guides: false,
+                    highlight: false,
+                    // cropBoxMovable: false,
+                    cropBoxResizable: true
+                });
+            }
+        
+            if (image.complete) {
+                start.call(image);
+            } else {
+                $main_img.one('load', start);
+            }
+        }
+        
+        function stopCropping () {
+            // var $canvas = $('#canvas');
+            // $canvas.cropper('destroy');
+             var $main_img = $('#main_image');
+              $main_img.cropper('destroy');
+        }
+    </script>
+</body>
+</html>
